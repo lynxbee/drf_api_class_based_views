@@ -4,4 +4,4 @@ from helloproject.helloapp.models import UserInfo
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
-        fields = ('username', 'email', 'age')
+        fields = ('id', 'username', 'email', 'age')
