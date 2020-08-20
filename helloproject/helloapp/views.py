@@ -8,6 +8,10 @@ from helloproject.helloapp.serializers import UserInfoSerializer
 
 from django.views.decorators.csrf import csrf_exempt
 
+class UserInfoView(viewsets.ModelViewSet) :
+    queryset = UserInfo.objects.all()
+    serializer_class = UserInfoSerializer
+
 @csrf_exempt
 def users(request):
     if request.method == 'GET':

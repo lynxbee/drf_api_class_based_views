@@ -2,7 +2,7 @@
 
 API_URL="http://192.168.0.106:8000/user"
 
-userid="ecbba534-e23b-11ea-96a2-0744224669b7"
+userid="my_userid"
 username="lynxbee1"
 email="social(at)lynxbee.com"
 age="45"
