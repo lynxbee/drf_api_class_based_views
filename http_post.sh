@@ -1,15 +1,23 @@
 #!/bin/bash
 
-API_URL="http://192.168.0.106:8000/user"
+API_URL="http://192.168.0.106:8000/users"
 
 userid="my_userid"
 username="lynxbee1"
 email="social(at)lynxbee.com"
 age="45"
 
-data="{\"userid\":\"$userid\",\"username\":\"$username\",\"email\":\"$email\",\"age\":\"$age\"}"
+home_no=123
+street="my home street"
+city="my city"
+pincode=123456
+
+address="{\"home_no\":\"$home_no\",\"street\":\"$street\",\"city\":\"$city\",\"pincode\":\"$pincode\"}"
+
+data="{\"userid\":\"$userid\",\"username\":\"$username\",\"email\":\"$email\",\"age\":\"$age\", \"useraddress\":"$address"}"
 echo $data
 
-curl -v -k -X POST -H "\"Accept: application/json\"" -H "\"Content-Type:application/json\"" -d $data "$API_URL/$userid/"
+#exit
+curl -v -k -X POST -H "\"Accept: application/json\"" -H "\"Content-Type:application/json\"" -d $data "$API_URL/"
 
 
