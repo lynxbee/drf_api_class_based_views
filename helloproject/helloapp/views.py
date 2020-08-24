@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework import status
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 
@@ -24,8 +25,8 @@ def users(request):
         serializer = UserInfoSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def user_by_pk(request, pk):
@@ -40,7 +41,7 @@ def user_by_pk(request, pk):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'PUT':
         user = UserInfo.objects.get(pk=pk)
@@ -49,7 +50,7 @@ def user_by_pk(request, pk):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def user_by_name(request, user_name):
@@ -64,7 +65,7 @@ def user_by_name(request, user_name):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'PUT':
         user = UserInfo.objects.get(username=user_name)
@@ -73,7 +74,7 @@ def user_by_name(request, user_name):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def user_by_uuid(request, user_id):
@@ -88,7 +89,7 @@ def user_by_uuid(request, user_id):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'PUT':
         user = UserInfo.objects.get(userid=user_id)
@@ -97,7 +98,7 @@ def user_by_uuid(request, user_id):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def index(request):
