@@ -9,4 +9,5 @@
 3. What is routers in Django REST Framework ?
    https://www.lynxbee.com/what-is-routers-in-django-rest-framework/
 
-
+4. Writing class based Views in Django REST Framework
+   https://www.lynxbee.com/writing-class-based-views-in-django-rest-framework/
