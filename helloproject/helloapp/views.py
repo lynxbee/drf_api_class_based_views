@@ -1,41 +1,47 @@
 from django.shortcuts import render
+
 from rest_framework import viewsets
 from rest_framework import status
-from django.http import HttpResponse, JsonResponse
+
 from rest_framework.parsers import JSONParser
+from rest_framework.views import APIView
+
+from django.http import Http404
+from django.http import HttpResponse, JsonResponse
 
 from helloproject.helloapp.models import UserInfo
 from helloproject.helloapp.serializers import UserInfoSerializer
-
-from django.views.decorators.csrf import csrf_exempt
 
 class UserInfoView(viewsets.ModelViewSet) :
     queryset = UserInfo.objects.all()
     serializer_class = UserInfoSerializer
 
-@csrf_exempt
-def users(request):
-    if request.method == 'GET':
+class usersClassView(APIView):
+    def get(self, request, format=None):
         users = UserInfo.objects.all()
         serializer = UserInfoSerializer(users, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.data,safe=False)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = UserInfoSerializer(data=data)
+    def post(self, request, format=None):
+        serializer = UserInfoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
-def user_by_pk(request, pk):
-    if request.method == 'GET':
+class user_by_pk(APIView):
+    def get_object(self, pk):
+        try:
+            return UserInfo.objects.get(pk=pk)
+        except UserInfo.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
         users = UserInfo.objects.filter(pk=pk)
         serializer = UserInfoSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == 'POST':
+    def post(self, request, format=None):
         data = JSONParser().parse(request)
         serializer = UserInfoSerializer(data=data)
         if serializer.is_valid():
@@ -43,7 +49,7 @@ def user_by_pk(request, pk):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    elif request.method == 'PUT':
+    def put(self, request, pk, format=None):
         user = UserInfo.objects.get(pk=pk)
         data = JSONParser().parse(request)
         serializer = UserInfoSerializer(user, data=data)
@@ -52,14 +58,13 @@ def user_by_pk(request, pk):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
-def user_by_name(request, user_name):
-    if request.method == 'GET':
+class user_by_name(APIView):
+    def get(self, request, user_name, format=None):
         users = UserInfo.objects.filter(username=user_name)
         serializer = UserInfoSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == 'POST':
+    def post(self, request, format=None):
         data = JSONParser().parse(request)
         serializer = UserInfoSerializer(data=data)
         if serializer.is_valid():
@@ -67,7 +72,7 @@ def user_by_name(request, user_name):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    elif request.method == 'PUT':
+    def put(self, request, user_name, format=None):
         user = UserInfo.objects.get(username=user_name)
         data = JSONParser().parse(request)
         serializer = UserInfoSerializer(user, data=data)
@@ -76,14 +81,13 @@ def user_by_name(request, user_name):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
-def user_by_uuid(request, user_id):
-    if request.method == 'GET':
+class user_by_uuid(APIView):
+    def get(self, request, user_id, format=None):
         users = UserInfo.objects.filter(userid=user_id)
         serializer = UserInfoSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == 'POST':
+    def post(self, request, format=None):
         data = JSONParser().parse(request)
         serializer = UserInfoSerializer(data=data)
         if serializer.is_valid():
@@ -91,7 +95,7 @@ def user_by_uuid(request, user_id):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    elif request.method == 'PUT':
+    def put(self, request, user_id, format=None):
         user = UserInfo.objects.get(userid=user_id)
         data = JSONParser().parse(request)
         serializer = UserInfoSerializer(user, data=data)
@@ -100,10 +104,8 @@ def user_by_uuid(request, user_id):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
 def index(request):
     return HttpResponse("This is Index page of user")
 
-@csrf_exempt
 def index_slug(request, custom_slug):
     return HttpResponse("This page accessed using Slug : " + custom_slug)
