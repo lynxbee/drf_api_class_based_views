@@ -29,6 +29,14 @@ class usersClassView(APIView):
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    #refer https://www.lynxbee.com/how-to-delete-single-and-multiple-objects-in-django-drf/
+    def delete(self, request, format=None):
+        users = UserInfo.objects.all()
+        if users:
+            users.delete()
+            return JsonResponse({"status":"ok"}, status=status.HTTP_200_OK)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class user_by_pk(APIView):
     def get_object(self, pk):
         try:
@@ -58,6 +66,14 @@ class user_by_pk(APIView):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    #refer https://www.lynxbee.com/how-to-delete-single-and-multiple-objects-in-django-drf/
+    def delete(self, request, user_name, format=None):
+        user = UserInfo.objects.filter(username=user_name)
+        if user:
+            user.delete()
+            return JsonResponse({"status":"ok"}, status=status.HTTP_200_OK)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class user_by_name(APIView):
     def get(self, request, user_name, format=None):
         users = UserInfo.objects.filter(username=user_name)
@@ -81,6 +97,14 @@ class user_by_name(APIView):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    #refer https://www.lynxbee.com/how-to-delete-single-and-multiple-objects-in-django-drf/
+    def delete(self, request, user_name, format=None):
+        user = UserInfo.objects.filter(username=user_name)
+        if user:
+            user.delete()
+            return JsonResponse({"status":"ok"}, status=status.HTTP_200_OK)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class user_by_uuid(APIView):
     def get(self, request, user_id, format=None):
         users = UserInfo.objects.filter(userid=user_id)
@@ -102,6 +126,14 @@ class user_by_uuid(APIView):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    #refer https://www.lynxbee.com/how-to-delete-single-and-multiple-objects-in-django-drf/
+    def delete(self, request, user_name, format=None):
+        user = UserInfo.objects.filter(username=user_name)
+        if user:
+            user.delete()
+            return JsonResponse({"status":"ok"}, status=status.HTTP_200_OK)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def index(request):
