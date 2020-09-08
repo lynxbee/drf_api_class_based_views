@@ -12,6 +12,8 @@ from django.http import HttpResponse, JsonResponse
 from helloproject.helloapp.models import UserInfo
 from helloproject.helloapp.serializers import UserInfoSerializer
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 class UserInfoView(viewsets.ModelViewSet) :
     queryset = UserInfo.objects.all()
     serializer_class = UserInfoSerializer
@@ -77,6 +79,7 @@ class user_by_pk(APIView):
 class user_by_name(APIView):
     def get(self, request, user_name, format=None):
         users = UserInfo.objects.filter(username=user_name)
+        
         serializer = UserInfoSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -108,6 +111,16 @@ class user_by_name(APIView):
 class user_by_uuid(APIView):
     def get(self, request, user_id, format=None):
         users = UserInfo.objects.filter(userid=user_id)
+
+        paginator = Paginator(users, 5)
+        page = request.query_params.get('page')
+        try:
+            users = paginator.page(page)
+        except PageNotAnInteger:
+            users = paginator.page(1)
+        except EmptyPage:
+            users = paginator.page(paginator.num_pages)
+
         serializer = UserInfoSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
 

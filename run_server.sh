@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SERVER_IP="192.168.0.106"
-SERVER_PORT="8000"
+SERVER_PORT="8001"
 
 python3 -m venv env
 source env/bin/activate
