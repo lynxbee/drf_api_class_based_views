@@ -12,7 +12,7 @@ urlpatterns = [
 #    path('users/', views.usersClassView.as_view()),
     path('user/', views.index),
     path('user/<int:pk>/', views.user_by_pk.as_view()),
-    path('user/<str:user_id>/', views.user_by_uuid.as_view()),
-    path('user/<str:user_name>/', views.user_by_name.as_view()),
-    path('user/<slug:custom_slug>', views.index_slug),
+    path('user_by_id/<str:user_id>/', views.user_by_uuid.as_view()),
+    path('user_by_name/<str:user_name>/', views.user_by_name.as_view()),
+    path('user/<slug:custom_slug>/', views.index_slug),
 ]
