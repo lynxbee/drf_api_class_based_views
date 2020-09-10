@@ -12,11 +12,15 @@ from django.http import HttpResponse, JsonResponse
 from helloproject.helloapp.models import UserInfo
 from helloproject.helloapp.serializers import UserInfoSerializer
 
+import django_filters.rest_framework
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class UserInfoView(viewsets.ModelViewSet) :
     queryset = UserInfo.objects.all()
     serializer_class = UserInfoSerializer
+#    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filter_fields = ["username"]
 
 class usersClassView(APIView):
     def get(self, request, format=None):

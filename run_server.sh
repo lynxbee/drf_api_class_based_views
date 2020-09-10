@@ -6,6 +6,7 @@ SERVER_PORT="8001"
 python3 -m venv env
 source env/bin/activate
 pip install django
+pip install django-filter
 pip install djangorestframework
 pip install drf_writable_nested
 python manage.py makemigrations
