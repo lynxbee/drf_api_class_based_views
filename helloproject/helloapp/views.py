@@ -20,7 +20,7 @@ class UserInfoView(viewsets.ModelViewSet) :
     queryset = UserInfo.objects.all()
     serializer_class = UserInfoSerializer
 #    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filter_fields = ["username"]
+    filter_fields = ["username", "userid"]
 
 class usersClassView(APIView):
     def get(self, request, format=None):
