@@ -128,13 +128,20 @@ class user_by_uuid(APIView):
         serializer = UserInfoSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-    def post(self, request, format=None):
-        data = JSONParser().parse(request)
-        serializer = UserInfoSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, user_id, format=None):
+        try :
+            user = UserInfo.objects.get(userid=user_id)
+            serializer = UserInfoSerializer(user, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except UserInfo.DoesNotExist :
+            serializer = UserInfoSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, user_id, format=None):
         user = UserInfo.objects.get(userid=user_id)
@@ -146,8 +153,8 @@ class user_by_uuid(APIView):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     #refer https://www.lynxbee.com/how-to-delete-single-and-multiple-objects-in-django-drf/
-    def delete(self, request, user_name, format=None):
-        user = UserInfo.objects.filter(username=user_name)
+    def delete(self, request, user_id, format=None):
+        user = UserInfo.objects.filter(userid=user_id)
         if user:
             user.delete()
             return JsonResponse({"status":"ok"}, status=status.HTTP_200_OK)

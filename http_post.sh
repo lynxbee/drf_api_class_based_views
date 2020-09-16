@@ -1,6 +1,7 @@
 #!/bin/bash
 
-API_URL="http://192.168.0.106:8000/users"
+#API_URL="http://192.168.0.106:8000/users"
+API_URL="http://192.168.0.106:8001/user_by_id/my_userid/"
 
 userid="my_userid"
 username="lynxbee1"
@@ -18,6 +19,7 @@ data="{\"userid\":\"$userid\",\"username\":\"$username\",\"email\":\"$email\",\"
 echo $data
 
 #exit
-curl -v -k -X POST -H "\"Accept: application/json\"" -H "\"Content-Type:application/json\"" -d $data "$API_URL/"
+#curl -v -k -X POST -H "\"Accept: application/json\"" -H "\"Content-Type:application/json\"" -d $data "$API_URL"
+echo curl -v -k -X POST -H "\"Accept: application/json\"" -H "\"Content-Type:application/json\"" -d $data "$API_URL"
 
 
