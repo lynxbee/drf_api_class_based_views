@@ -130,6 +130,14 @@ class user_by_uuid(APIView):
 
     def post(self, request, user_id, format=None):
         try :
+            #print(request.data)
+            userid_from_payload = request.data.get("userid", '')
+            #print(userid_from_payload)
+            userid_from_api = user_id
+            #print(userid_from_api)
+            if (userid_from_payload != userid_from_api) :
+                return JsonResponse({"status":"userid not matching...post error"}, status=status.HTTP_400_BAD_REQUEST)
+
             user = UserInfo.objects.get(userid=user_id)
             serializer = UserInfoSerializer(user, data=request.data)
             if serializer.is_valid():
