@@ -17,5 +17,8 @@ class UserInfo (models.Model) :
 
     useraddress = models.ForeignKey('UserAddress', on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self) :
         return self.username
