@@ -15,7 +15,7 @@ class UserInfo (models.Model) :
     email = models.CharField(max_length=100)
     age = models.CharField(max_length=100)
 
-    useraddress = models.ForeignKey('UserAddress', on_delete=models.CASCADE)
+    useraddress = models.ManyToManyField('UserAddress')
 
     class Meta:
         ordering = ['id']

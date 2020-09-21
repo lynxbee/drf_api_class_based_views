@@ -9,7 +9,7 @@ class UserAddressSerializer(serializers.ModelSerializer):
         fields = ['id', 'home_no', 'street', 'city', 'pincode']
 
 class UserInfoSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
-    useraddress = UserAddressSerializer()
+    useraddress = UserAddressSerializer(many=True)
 
     class Meta:
         model = UserInfo
